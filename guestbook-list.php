@@ -1,5 +1,6 @@
 <?php
 
+
 ?>
 
 <?php include('inc/header.php'); ?>
@@ -18,21 +19,29 @@
                 </thead>
 		
 			<div class="well">
+            <?php
+        require('config/config.php');
+        require('config/db.php');
+
+        $sql = "SELECT id,lastname, firstname,address,logdt from person";
+        $result = mysqli_query($conn,$sql) or die("database error:".mysqli_error($conn));
+        ?>
+
                 <tbody>
-                <?php foreach($persons as $person) : ?>
-                    <tr>
-                    <th scope="row"><?php echo $person['pid'];?></th>
-                    <td><?php echo $person['lastname'];?></td>
-                    <td><?php echo $person['firstname'];?></td>
-                    <td><?php echo $person['address'];?></td>
-                    <td><?php echo $person['logdt'];?></td>
-                    </tr>
-                <?php endforeach; ?>   
+                <?php while($row = mysqli_fetch_assoc($result)){?>
+                            <tr id="<?php echo $row['id']?>">
+                            <td><?php echo $row['id'];?></td>
+                            <td><?php echo $row['lastname'];?></td>
+                            <td><?php echo $row['firstname'];?></td>
+                            <td><?php echo $row['address'];?></td>
+                            <td><?php echo $row['logdt'];?></td>
+                            </tr>
+                            <?php }?>     
                 </tbody>
             </div>
         </table>
         <br/>
 
-            <button type="button" class="btn btn-dark btn-sm" onclick="document.location='guestbook-login.php'">Logout</button>
+            <button type="button" class="btn btn-dark btn-sm" ><a style="color:white;" href="guestbook-logout.php">Logout</a></button>
 </div>
 <?php include('inc/footer.php'); ?>

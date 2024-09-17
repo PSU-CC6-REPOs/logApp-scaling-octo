@@ -1,5 +1,27 @@
 <?php
-  
+	require('config/config.php');
+  require('config/db.php');
+
+
+  if(isset($_POST['submit'])){
+    $name = htmlentities($_POST['username']);
+    $pass = htmlentities($_POST['password']);
+
+    $sql = "SELECT * from account where user='".$name."' AND password='".$pass."' 
+            limit 1";
+
+    $result = mysqli_query($conn,$sql);
+    $rows = mysqli_num_rows($result);
+    if($rows ==1){
+      header('Location: guestbook-list.php');
+      $row = mysqli_fetch_assoc($result);
+      $_SESSION['username'] = $row['user'];
+
+    } else {
+      echo "<script>alert('Wrong Username or Password!')</script>";
+    }
+
+  }
 
 
 
